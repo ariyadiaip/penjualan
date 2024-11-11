@@ -5,7 +5,7 @@
     <!-- CSS -->
     <link href="<?php echo base_url(); ?>assets/css/materialize.css" type="text/css" rel="stylesheet">
     <!-- dataTables -->
-    <link href="<?php echo base_url(); ?>assets/js/plugins/datatables/css/jquery.dataTables.min.css" type="text/css"
+    <link href="<?php echo base_url(); ?>assets/js/plugins/data-tables/css/jquery.dataTables.min.css" type="text/css"
         rel="stylesheet">
 </head>
 <style type="text/css">
