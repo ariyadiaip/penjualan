@@ -63,6 +63,11 @@ class penjualan extends CI_Controller
         if (!$this->session->userdata('level') == 'Admin') {
             redirect('login');
         } else {
+
+            // Load library PHPExcel
+            $this->load->library('PHPExcel');
+            $this->load->library('PHPExcel/IOFactory');
+
             // Panggil class PHPExcel nya
             $excel = new PHPExcel();
 
@@ -101,8 +106,7 @@ class penjualan extends CI_Controller
                     ),
                 ),
             );
-            $excel->setActiveSheetIndex(0)->setCellValue('A1', "Data Penjualan"); // Set kolom A1
-            $excel->setActiveSheetIndex(0)->setCellValue('A1', "Data Penjualan"); // Set kolom A1
+            $excel->setActiveSheetIndex(0)->setCellValue('A1', "DATA PENJUALAN"); // Set kolom A1
             $excel->getActiveSheet()->mergeCells('A1:H1'); // Set Merge Cell pada kolom A1 sampai E1
             $excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE); // Set bold kolom A1
             $excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(15); // Set font size 15 untuk kolom A1
@@ -169,17 +173,20 @@ class penjualan extends CI_Controller
             header('Content-Type: application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="Data Penjualan.xlsx"'); // Set nama file excel nya
             header('Cache-Control: max-age=0');
-            $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+            $write = IOFactory::createWriter($excel, 'Excel2007');
+            
+            ob_get_clean();
             $write->save('php://output');
         }
     }
 
     function exportPDF()
     {
+        ob_clean();
         $data['dataPenjualan'] = $this->m_penjualan->getPenjualan()->result();
 
         $this->pdf->load_view('admin/laporan/laporanPenjualan', $data);
-        $tgl = date("d/m/Y");
+        $tgl = date("d-m-Y");
         $this->pdf->render();
         $this->pdf->stream("Laporan-Penjualan_" . $tgl . ".pdf");
     }

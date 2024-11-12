@@ -82,6 +82,10 @@ class petugas extends CI_Controller
             redirect('login');
         } else {
 
+            // Load library PHPExcel
+            $this->load->library('PHPExcel');
+            $this->load->library('PHPExcel/IOFactory');
+
             $excel = new PHPExcel();
 
             // Settingan awal fil excel
@@ -120,7 +124,7 @@ class petugas extends CI_Controller
                     ),
                 ),
             );
-            $excel->setActiveSheetIndex(0)->setCellValue('A1', "DATA Petugas"); // Set kolom A1 dengan tulisan "DATA BARANG"
+            $excel->setActiveSheetIndex(0)->setCellValue('A1', "DATA PETUGAS"); // Set kolom A1 dengan tulisan "DATA BARANG"
             $excel->getActiveSheet()->mergeCells('A1:E1'); // Set Merge Cell pada kolom A1 sampai E1
             $excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE); // Set bold kolom A1
             $excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(15); // Set font size 15 untuk kolom A1
@@ -173,17 +177,20 @@ class petugas extends CI_Controller
             header('Content-Type: application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="Data Petugas.xlsx"'); // Set nama file excel nya
             header('Cache-Control: max-age=0');
-            $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+            $write = IOFactory::createWriter($excel, 'Excel2007');
+            
+            ob_get_clean();
             $write->save('php://output');
         }
     }
 
     function exportPDF()
     {
+        ob_clean();
         $data['dataPetugas'] = $this->m_user->getPetugas()->result();
 
         $this->pdf->load_view('admin/laporan/laporanPetugas', $data);
-        $tgl = date("d/m/Y");
+        $tgl = date("d-m-Y");
         $this->pdf->render();
         $this->pdf->stream("Laporan-Petugas_" . $tgl . ".pdf");
     }

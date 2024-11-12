@@ -53,7 +53,7 @@
                                         <td>
                                             <a href="<?php echo base_url(); ?>barang/ubahBarang/<?= $barang->idBarang ?>"
                                                 rel="tooltip" title="Ubah" style="color:blue"><i
-                                                    class="mdi-editor-bordercolor"></i></a>
+                                                    class="mdi-editor-border-color"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>

@@ -150,6 +150,11 @@ class barang extends CI_Controller
         if (!$this->session->userdata('level') == 'Admin') {
             redirect('login');
         } else {
+
+            // Load library PHPExcel
+            $this->load->library('PHPExcel');
+            $this->load->library('PHPExcel/IOFactory');
+
             // Panggil class PHPExcel nya
             $excel = new PHPExcel();
             $path = $_SERVER['DOCUMENT_ROOT'] . '/assets/gambar/';
@@ -245,20 +250,23 @@ class barang extends CI_Controller
             header('Content-Type: application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="Data Barang.xlsx"'); // Set nama file excel nya
             header('Cache-Control: max-age=0');
-            $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+            $write = IOFactory::createWriter($excel, 'Excel2007');
+
+            ob_get_clean();
             $write->save('php://output');
         }
     }
 
     public function exportPDF()
     {
+        ob_clean();
         $data['dataBarang'] = $this->m_barang->getBarang()->result();
 
-        $tgl = date("Y/m/d");
+        $tgl = date("d-m-Y");
         $this->pdf->load_view('admin/laporan/laporanBarang', $data);
         $this->pdf->render();
         set_time_limit(500);
-        $this->pdf->stream("Laporan-Barang" . $tgl . ".pdf");
+        $this->pdf->stream("Laporan-Barang_" . $tgl . ".pdf");
     }
 
 }
