@@ -24,6 +24,18 @@ class admin extends CI_Controller
             $this->load->view('admin/footer');
         }
     }
+
+    public function profil()
+    {
+        $data['admin'] = $this->m_user->selectAdmin()->row();
+        if ($this->session->userdata('level') != 'Admin') {
+            redirect('login');
+        } else {
+            $this->load->view('admin/header', $data);
+            $this->load->view('profil/profil_admin', $data);
+            $this->load->view('admin/footer');
+        }
+    }
     
 }
 ?>
