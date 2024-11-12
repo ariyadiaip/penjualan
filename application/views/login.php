@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <link href="<?php echo base_url(); ?>assets/css/materialize.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>assets/css/materialize.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -50,7 +50,7 @@
     <div class="section"></div>
     <div class="section"></div>
 
-    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/materialize.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/materialize.min.js"></script>
 </body>
 
